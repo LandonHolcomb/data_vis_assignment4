@@ -1,20 +1,20 @@
     
-// Set up dimensions and margins
-const margin = { top: 60, right: 30, bottom: 100, left: 60 }; // Increased top margin for title
+// dimensions
+const margin = { top: 60, right: 30, bottom: 100, left: 60 }; 
 const width = 1200 - margin.left - margin.right;
 const height = 400 - margin.top - margin.bottom;
 
-// Create an SVG container within the #barchart div
+
 const svg = d3.select("#barchart")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);
 
-// Add a title to the chart
+// title
 svg.append("text")
-    .attr("x", width / 2) // Center horizontally
-    .attr("y", -20) // Position above the plot area
+    .attr("x", width / 2) 
+    .attr("y", -20) 
     .attr("text-anchor", "middle")
     .style("font-size", "24px")
     .style("font-weight", "bold")
@@ -26,10 +26,10 @@ d3.csv("name-data.csv")
         // Transform data to work with Amanda's column
         const filteredData = data.map(d => ({
             year: d.year,
-            count: +d["Amanda"] // Access the "Amanda" column directly
+            count: +d["Amanda"] 
         }));
 
-        // Set up x-scale and y-scale
+        // x-scale and y-scale
         const xScale = d3.scaleBand()
             .domain(filteredData.map(d => d.year))
             .range([0, width])
@@ -40,7 +40,7 @@ d3.csv("name-data.csv")
             .nice()
             .range([height, 0]);
 
-        // Append bars to the SVG for each data point
+        
         svg.selectAll(".bar")
             .data(filteredData)
             .enter()
@@ -52,7 +52,7 @@ d3.csv("name-data.csv")
             .attr("height", d => height - yScale(d.count))
             .attr("fill", "steelblue");
 
-        // Add x-axis with reduced tick marks
+        // we need fewer x axis tick marks
         svg.append("g")
             .attr("transform", `translate(0,${height})`)
             .call(d3.axisBottom(xScale).tickValues(
